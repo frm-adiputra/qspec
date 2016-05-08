@@ -1,0 +1,14 @@
+{{define "PREPARED_QUERY_ROW"}}
+{{template "PREPARED_QUERY_COMMONS" .}}
+
+// Query executes the prepared {{.Name}} statement.
+func (p *Prepared{{.Name}}) Query({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) ({{.ReturnType}}, error) {
+	var v {{.ReturnType}}
+	err := p.stmt.QueryRow({{.ParamsSequence}}).Scan({{.RowScan}})
+	if err != nil {
+		return {{.ReturnType}}{}, err
+	}
+
+	return v, nil
+}
+{{end}}

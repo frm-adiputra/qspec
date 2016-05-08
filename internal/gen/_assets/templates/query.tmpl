@@ -1,0 +1,15 @@
+{{define "QUERY"}}
+	{{- if .DeclareResultStruct}}
+		{{template "STRUCT" .ResultStruct}}
+	{{end}}
+
+	{{if eq .Result.Type "Row"}}
+		{{- template "QUERY_ROW" .}}
+	{{else if eq .Result.Type "Rows"}}
+		{{- template "QUERY_ROWS" .}}
+	{{else if eq .Result.Type "None"}}
+		{{- template "QUERY_EXEC" .}}
+	{{else}}
+		{{- template "QUERY_SCALAR" .}}
+	{{end}}
+{{end}}

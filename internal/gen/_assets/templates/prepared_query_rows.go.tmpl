@@ -1,0 +1,26 @@
+{{define "PREPARED_QUERY_ROWS"}}
+{{template "PREPARED_QUERY_COMMONS" .}}
+
+// Query executes the prepared {{.Name}} statement.
+func (p *Prepared{{.Name}}) Query({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) ([]{{.ReturnType}}, error) {
+	var a []{{.ReturnType}}
+	rows, err := p.stmt.Query({{.ParamsSequence}})
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var v {{.ReturnType}}
+		if err := rows.Scan({{.RowScan}}); err != nil {
+			return nil, err
+		}
+		a = append(a, v)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return a, nil
+}
+{{end}}

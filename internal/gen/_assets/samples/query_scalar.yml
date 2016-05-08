@@ -1,0 +1,14 @@
+description: provides sample query.
+queries:
+  Count:
+    description: counts sample.
+    statement: SELECT COUNT(*) FROM Sample;
+    prepared: true
+    result:
+      type: int64
+  CountDisabled:
+    description: counts sample by disabled.
+    statement: SELECT COUNT(*) FROM Sample WHERE disabled = ?disabled;
+    prepared: true
+    result:
+      type: int64

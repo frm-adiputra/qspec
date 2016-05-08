@@ -1,0 +1,26 @@
+description: provides sample model.
+
+imports:
+- fmt
+
+structs:
+  Blog:
+    description: represents a blog.
+    fields:
+    - name: ID
+      type: string
+      tag: 'json:"id,string"'
+    - name: Title
+      type: string
+
+queries:
+  Select:
+    description: select by ID and Title.
+    statement: SELECT * FROM Sample WHERE ID = ?id;
+    result:
+      type: Row
+      struct:
+        name: Blog
+        fields:
+        - ID
+        - Title

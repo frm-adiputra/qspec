@@ -1,0 +1,7 @@
+{{define "STRUCT"}}
+// {{.Name}} {{.Description}}
+type {{.Name}} struct {
+	{{range .Fields}}{{.Name}} {{.Type}} {{if .Tag}}`{{.Tag}}`{{end}}
+	{{end}}
+}
+{{end}}

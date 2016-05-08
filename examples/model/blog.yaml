@@ -1,0 +1,79 @@
+description: provides Blog model.
+
+structs:
+  Blog:
+    description: represents a blog.
+    fields:
+    - name: ID
+      type: string
+      tag: 'json:"id,string"'
+    - name: Title
+      type: string
+    - name: Content
+      type: string
+
+queries:
+  SelectByID:
+    description: selects by ID.
+    statement: SELECT * FROM tb_blog WHERE ID = ?id
+    prepared: true
+    result:
+      type: Row
+      fields:
+      - name: ID
+        type: string
+        tag: 'json:"id,string"'
+      - name: Title
+        type: string
+      - name: Content
+        type: string
+  AllTitles:
+    description: selects all titles
+    statement: SELECT ID, Content, Title FROM tb_blog
+    prepared: true
+    result:
+      type: Rows
+      struct:
+        name: Blog
+        fields:
+        - ID
+        - Content
+        - Title
+  SelectCommentByID:
+    description: selects comment by ID
+    statement: SELECT * FROM tb_comment WHERE ID = ?id
+    prepared: true
+    result:
+      type: Row
+      fields:
+      - name: ID
+        type: string
+        tag: 'json:"id,string"'
+      - name: Username
+        type: string
+      - name: Comment
+        type: string
+  UpdateComment:
+    description: updates a comment.
+    statement: |
+      UPDATE tb_comment
+      SET
+        username = ?username,
+        comment = ?comment
+      WHERE
+        id = ?id;
+    prepared: true
+    result:
+      type: None
+  CountComment:
+    description: counts comment.
+    statement: SELECT COUNT(*) FROM tb_comment;
+    prepared: true
+    result:
+      type: int64
+  CountBlogByID:
+    description: counts blog by ID.
+    statement: SELECT COUNT(*) FROM tb_blog WHERE ID = ?id;
+    prepared: true
+    result:
+      type: int64
