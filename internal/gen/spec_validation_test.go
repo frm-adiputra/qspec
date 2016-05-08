@@ -104,6 +104,35 @@ func TestQuerySpecValidation(t *testing.T) {
 					Fields: []FieldSpec{{Name: "any", Type: "any"}}}},
 			true, "cannot set result fields while result type is",
 		},
+		{
+			QuerySpec{
+				Statement:          "any",
+				ParamsStructFields: []FieldSpec{{Name: "any"}},
+				ParamsStructRef:    "any",
+				Result: ResultSpec{
+					Type:   "Row",
+					Struct: ResultStructSpec{Name: "Struct1", Fields: []string{"any"}}}},
+			true, "cannot set ParamsStructRef while ParamsStructFields is also set",
+		},
+		{
+			QuerySpec{
+				Statement:               "any",
+				ParamsStructRef:         "any",
+				ParamsStructRefValidate: false,
+				Result: ResultSpec{
+					Type:   "Row",
+					Struct: ResultStructSpec{Name: "Struct1", Fields: []string{"any"}}}},
+			false, "",
+		},
+		{
+			QuerySpec{
+				Statement:          "any",
+				ParamsStructFields: []FieldSpec{{Name: "any"}},
+				Result: ResultSpec{
+					Type:   "Row",
+					Struct: ResultStructSpec{Name: "Struct1", Fields: []string{"any"}}}},
+			false, "",
+		},
 	}
 
 	for i, fx := range fixtures {

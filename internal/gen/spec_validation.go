@@ -33,10 +33,12 @@ func (m *ModelSpec) Validate() error {
 
 // Validate validates query spec.
 func (q QuerySpec) Validate() error {
+	// Statement is required
 	if q.Statement == "" {
 		return errors.New("statement is required")
 	}
 
+	// Check result type is having correct value
 	switch q.Result.Type {
 	case
 		ResultTypeNone,
@@ -54,18 +56,21 @@ func (q QuerySpec) Validate() error {
 		return errors.New("invalid result type: " + q.Result.Type)
 	}
 
+	// Struct name and struct fields must be set both or none
 	if q.Result.Struct.Name == "" && len(q.Result.Struct.Fields) != 0 {
 		return errors.New("result struct name is required")
 	}
-
 	if q.Result.Struct.Name != "" && len(q.Result.Struct.Fields) == 0 {
 		return errors.New("result struct fields is required")
 	}
 
+	// Result struct and result fields are mutually exclusive (cannot be
+	// set both)
 	if (q.Result.Struct.Name != "" || len(q.Result.Struct.Fields) != 0) && len(q.Result.Fields) != 0 {
 		return errors.New("result struct must not be set if result fields is set")
 	}
 
+	// Check relations between result type and result struct/result fields
 	switch q.Result.Type {
 	case ResultTypeNone:
 		if q.Result.Struct.Name != "" || len(q.Result.Struct.Fields) != 0 {
@@ -91,11 +96,16 @@ func (q QuerySpec) Validate() error {
 		}
 	}
 
+	// Validate result fields
 	for _, f := range q.Result.Fields {
 		err := f.Validate()
 		if err != nil {
 			return err
 		}
+	}
+
+	if q.ParamsStructRef != "" && len(q.ParamsStructFields) != 0 {
+		return errors.New("cannot set ParamsStructRef while ParamsStructFields is also set")
 	}
 
 	return nil
