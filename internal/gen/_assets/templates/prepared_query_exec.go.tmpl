@@ -1,0 +1,9 @@
+{{define "PREPARED_QUERY_EXEC"}}
+{{template "PREPARED_QUERY_COMMONS" .}}
+
+// Exec executes the prepared {{.Name}} statement.
+func (p *Prepared{{.Name}}) Exec({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) (sql.Result, error) {
+	r, err := p.stmt.Exec({{.ParamsSequence}})
+	return r, err
+}
+{{end}}

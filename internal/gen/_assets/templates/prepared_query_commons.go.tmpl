@@ -1,0 +1,21 @@
+{{define "PREPARED_QUERY_COMMONS"}}
+// Prepared{{.Name}} represents the prepared {{.Name}} statement.
+type Prepared{{.Name}} struct {
+	stmt *sql.Stmt
+}
+
+// Prepare{{.Name}} returns the prepared {{.Name}} statement.
+func Prepare{{.Name}}() (*Prepared{{.Name}}, error) {
+	stmt, err := getDB().Prepare(_{{.Name}}Stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Prepared{{.Name}}{stmt}, nil
+}
+
+// Close closes the prepared {{.Name}} statement.
+func (p *Prepared{{.Name}}) Close() error {
+	return p.stmt.Close()
+}
+{{end}}

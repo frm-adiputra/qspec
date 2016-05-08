@@ -1,0 +1,14 @@
+description: provides sample query.
+queries:
+  Update:
+    description: updates sample.
+    statement: |
+      UPDATE Sample
+      SET
+        ID = ?id,
+        Title = ?title,
+        Content = ?content
+      WHERE ID = ?id;
+    prepared: true
+    result:
+      type: None

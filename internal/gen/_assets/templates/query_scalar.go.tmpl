@@ -1,0 +1,14 @@
+{{define "QUERY_SCALAR"}}
+// {{.Name}} {{.Description}}
+func {{.Name}}({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) ({{.ReturnType}}, error) {
+	var v {{.ReturnType}}
+	err := getDB().QueryRow(_{{.Name}}Stmt {{if .ParamsSequence}}, {{.ParamsSequence}} {{end}}).Scan(&v)
+	if err != nil {
+		return v, err
+	}
+
+	return v, nil
+}
+
+{{if .Prepared}}{{template "PREPARED_QUERY_SCALAR" .}}{{end}}
+{{end}}

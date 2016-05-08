@@ -1,0 +1,9 @@
+{{define "QUERY_EXEC"}}
+// {{.Name}} {{.Description}}
+func {{.Name}}({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) (sql.Result, error) {
+	r, err := getDB().Exec(_{{.Name}}Stmt {{if .ParamsSequence}}, {{.ParamsSequence}} {{end}})
+	return r, err
+}
+
+{{if .Prepared}}{{template "PREPARED_QUERY_EXEC" .}}{{end}}
+{{end}}

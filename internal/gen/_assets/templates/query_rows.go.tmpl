@@ -1,0 +1,26 @@
+{{define "QUERY_ROWS"}}
+// {{.Name}} {{.Description}}
+func {{.Name}}({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) ([]{{.ReturnType}}, error) {
+	var a []{{.ReturnType}}
+	rows, err := getDB().Query(_{{.Name}}Stmt {{if .ParamsSequence}}, {{.ParamsSequence}} {{end}})
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var v {{.ReturnType}}
+		if err := rows.Scan({{.RowScan}}); err != nil {
+			return nil, err
+		}
+		a = append(a, v)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return a, nil
+}
+
+{{if .Prepared}}{{template "PREPARED_QUERY_ROWS" .}}{{end}}
+{{end}}
