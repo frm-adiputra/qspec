@@ -18,6 +18,11 @@ func main() {
 		invalidArgs(errors.New("Invalid number of arguments"))
 	}
 
+	if os.Args[1] == "-v" {
+		fmt.Println(version)
+		os.Exit(0)
+	}
+
 	err := gen.GenerateSourceCodeFromYAML(os.Args[1])
 	if err != nil {
 		fatalError(err)
