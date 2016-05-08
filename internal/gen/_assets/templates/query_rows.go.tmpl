@@ -1,8 +1,8 @@
 {{define "QUERY_ROWS"}}
 // {{.Name}} {{.Description}}
-func {{.Name}}({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) ([]{{.ReturnType}}, error) {
+func {{.Name}}({{if .ParamsDeclaration}} {{.ParamsDeclaration}} interface{} {{end}}) ([]{{.ReturnType}}, error) {
 	var a []{{.ReturnType}}
-	rows, err := getDB().Query(_{{.Name}}Stmt {{if .ParamsSequence}}, {{.ParamsSequence}} {{end}})
+	rows, err := getDB().Query(_{{.Name}}Stmt {{if .ParamsUsage}}, {{.ParamsUsage}} {{end}})
 	if err != nil {
 		return nil, err
 	}

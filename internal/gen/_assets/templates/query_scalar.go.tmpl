@@ -1,8 +1,8 @@
 {{define "QUERY_SCALAR"}}
 // {{.Name}} {{.Description}}
-func {{.Name}}({{if .ParamsSet}} {{.ParamsSet}} interface{} {{end}}) ({{.ReturnType}}, error) {
+func {{.Name}}({{if .ParamsDeclaration}} {{.ParamsDeclaration}} interface{} {{end}}) ({{.ReturnType}}, error) {
 	var v {{.ReturnType}}
-	err := getDB().QueryRow(_{{.Name}}Stmt {{if .ParamsSequence}}, {{.ParamsSequence}} {{end}}).Scan(&v)
+	err := getDB().QueryRow(_{{.Name}}Stmt {{if .ParamsUsage}}, {{.ParamsUsage}} {{end}}).Scan(&v)
 	if err != nil {
 		return v, err
 	}

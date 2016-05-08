@@ -54,14 +54,14 @@ func (q QuerySpec) DeclareResultStruct() bool {
 	return false
 }
 
-// ParamsSet returns the parameter set as string.
-func (q QuerySpec) ParamsSet() string {
-	return strings.Join(q.params.Set, ", ")
+// ParamsDeclaration returns the parameters' declaration string.
+func (q QuerySpec) ParamsDeclaration() string {
+	return strings.Join(q.params.Declaration, ", ")
 }
 
-// ParamsSequence returns the parameter sequence as string.
-func (q QuerySpec) ParamsSequence() string {
-	return strings.Join(q.params.Sequence, ", ")
+// ParamsUsage returns the parameters' usage string.
+func (q QuerySpec) ParamsUsage() string {
+	return strings.Join(q.params.Usage, ", ")
 }
 
 // RowScan returns the rows scan arguments as string.

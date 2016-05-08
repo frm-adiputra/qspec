@@ -22,10 +22,12 @@ type ModelSpec struct {
 
 // QuerySpec represents a query specification.
 type QuerySpec struct {
-	Description string
-	Statement   string
-	Prepared    bool
-	Result      ResultSpec
+	Description     string
+	Statement       string
+	Prepared        bool
+	ParamsStruct    []FieldSpec
+	ParamsStructRef string
+	Result          ResultSpec
 
 	name             string
 	cleanedStatement string
@@ -55,13 +57,14 @@ type StructSpec struct {
 
 // FieldSpec represents a field specification.
 type FieldSpec struct {
-	Name string
-	Type string
-	Tag  string
+	Name        string
+	Type        string
+	Tag         string
+	Validations map[string]interface{}
 }
 
 // ParamsSpec represents parameters specification from an SQL statement.
 type ParamsSpec struct {
-	Sequence []string
-	Set      []string
+	Declaration []string
+	Usage       []string
 }

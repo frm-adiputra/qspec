@@ -28,7 +28,7 @@ func TestHasInvalidParams(t *testing.T) {
 	}
 }
 
-func TestCreateParamsSequence(t *testing.T) {
+func TestCreateParamsUsage(t *testing.T) {
 	assert := assert.New(t)
 
 	var fixtures = []struct {
@@ -44,12 +44,12 @@ func TestCreateParamsSequence(t *testing.T) {
 	}
 
 	for _, fx := range fixtures {
-		actual := createParamsSequence(fx.Stmt)
+		actual := createParamsUsage(fx.Stmt)
 		assert.Equal(fx.Expected, actual, fx.Stmt)
 	}
 }
 
-func TestCreateParamsSet(t *testing.T) {
+func TestCreateParamsDeclaration(t *testing.T) {
 	assert := assert.New(t)
 
 	var fixtures = []struct {
@@ -61,7 +61,7 @@ func TestCreateParamsSet(t *testing.T) {
 	}
 
 	for _, fx := range fixtures {
-		actual := createParamsSet(fx.Sequence)
+		actual := createParamsDeclaration(fx.Sequence)
 		assert.Equal(fx.Expected, actual)
 	}
 }

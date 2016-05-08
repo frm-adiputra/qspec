@@ -21,15 +21,15 @@ func CreateParamsSpec(s string) (ParamsSpec, error) {
 		return ParamsSpec{}, ErrInvalidParams
 	}
 
-	pos := createParamsSequence(s)
+	pos := createParamsUsage(s)
 
 	return ParamsSpec{
-		Sequence: pos,
-		Set:      createParamsSet(pos),
+		Declaration: createParamsDeclaration(pos),
+		Usage:       pos,
 	}, nil
 }
 
-func createParamsSequence(s string) []string {
+func createParamsUsage(s string) []string {
 	all := reValidParams.FindAllStringSubmatch(s, -1)
 	var arr []string
 	for _, a := range all {
@@ -42,7 +42,7 @@ func hasInvalidParams(s string) bool {
 	return reInvalidParams.MatchString(s)
 }
 
-func createParamsSet(a []string) []string {
+func createParamsDeclaration(a []string) []string {
 	var (
 		m = make(map[string]bool)
 		r []string
