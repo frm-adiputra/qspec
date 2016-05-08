@@ -1,6 +1,12 @@
 {{define "QUERY_ROW"}}
 // {{.Name}} {{.Description}}
 func {{.Name}}({{.ParamsDeclaration}}) ({{.ReturnType}}, error) {
+	{{- if and .IsUsingParamsStruct .IsUsingParamsStructValidations -}}
+	err := params.Validate()
+	if err != nil {
+		return nil, err
+	}
+	{{end}}
 	var v {{.ReturnType}}
 	err := getDB().QueryRow(_{{.Name}}Stmt {{if .ParamsUsage}}, {{.ParamsUsage}} {{end}}).Scan({{.RowScan}})
 	if err != nil {

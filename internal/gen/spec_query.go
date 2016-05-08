@@ -60,11 +60,20 @@ func (q QuerySpec) ParamsStructName() string {
 		return q.ParamsStructRef
 	}
 
-	return q.Name() + "Params"
+	if len(q.ParamsStructFields) != 0 {
+		return q.Name() + "Params"
+	}
+
+	return ""
 }
 
 // ParamsDeclaration returns the parameters' declaration string.
 func (q QuerySpec) ParamsDeclaration() string {
+	s := q.ParamsStructName()
+	if s != "" {
+		return "params " + s
+	}
+
 	if len(q.params.Declaration) == 0 {
 		return ""
 	}
@@ -74,7 +83,43 @@ func (q QuerySpec) ParamsDeclaration() string {
 
 // ParamsUsage returns the parameters' usage string.
 func (q QuerySpec) ParamsUsage() string {
-	return strings.Join(q.params.Usage, ", ")
+	if !q.IsUsingParamsStruct() {
+		return strings.Join(q.params.Usage, ", ")
+	}
+
+	if len(q.params.Usage) == 0 {
+		return ""
+	}
+
+	return "params." + strings.Join(q.params.Usage, ", params.")
+}
+
+// IsUsingParamsStruct returns true if the query uses a struct as its
+// collection of params.
+func (q QuerySpec) IsUsingParamsStruct() bool {
+	return q.ParamsStructRef != "" || len(q.ParamsStructFields) != 0
+}
+
+// ParamsStruct returns the query's params struct.
+func (q QuerySpec) ParamsStruct() StructSpec {
+	if len(q.ParamsStructFields) == 0 {
+		return StructSpec{}
+	}
+
+	s := StructSpec{
+		Description: fmt.Sprintf("represents query parameters of %s.", q.Name()),
+		Fields:      q.ParamsStructFields,
+		name:        q.ParamsStructName(),
+	}
+
+	return s
+}
+
+// IsUsingParamsStructValidations returns true if the query struct of params
+// needs to be validated.
+func (q QuerySpec) IsUsingParamsStructValidations() bool {
+	return (q.ParamsStructRef != "" && q.ParamsStructRefValidate) ||
+		q.ParamsStruct().IsUsingValidations()
 }
 
 // RowScan returns the rows scan arguments as string.

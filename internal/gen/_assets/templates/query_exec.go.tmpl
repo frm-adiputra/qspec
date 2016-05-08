@@ -1,6 +1,12 @@
 {{define "QUERY_EXEC"}}
 // {{.Name}} {{.Description}}
 func {{.Name}}({{.ParamsDeclaration}}) (sql.Result, error) {
+	{{- if and .IsUsingParamsStruct .IsUsingParamsStructValidations -}}
+	err := params.Validate()
+	if err != nil {
+		return nil, err
+	}
+	{{end}}
 	r, err := getDB().Exec(_{{.Name}}Stmt {{if .ParamsUsage}}, {{.ParamsUsage}} {{end}})
 	return r, err
 }

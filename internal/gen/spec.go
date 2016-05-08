@@ -22,12 +22,13 @@ type ModelSpec struct {
 
 // QuerySpec represents a query specification.
 type QuerySpec struct {
-	Description     string
-	Statement       string
-	Prepared        bool
-	ParamsStruct    []FieldSpec
-	ParamsStructRef string
-	Result          ResultSpec
+	Description             string
+	Statement               string
+	Prepared                bool
+	ParamsStructFields      []FieldSpec `yaml:"paramsStructFields"`
+	ParamsStructRef         string      `yaml:"paramsStructRef"`
+	ParamsStructRefValidate bool        `yaml:"paramsStructRefValidate"`
+	Result                  ResultSpec
 
 	name             string
 	cleanedStatement string

@@ -3,6 +3,10 @@
 		{{template "STRUCT" .ResultStruct}}
 	{{end}}
 
+	{{- if .ParamsStruct.Name}}
+		{{template "STRUCT" .ParamsStruct}}
+	{{end}}
+
 	{{if eq .Result.Type "Row"}}
 		{{- template "QUERY_ROW" .}}
 	{{else if eq .Result.Type "Rows"}}

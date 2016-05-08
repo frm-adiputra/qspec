@@ -198,3 +198,28 @@ func TestGenerateSourceCodeImport(t *testing.T) {
 		t.Logf("(actual):\n%s", actual)
 	}
 }
+
+func TestGenerateSourceCodeStructAsQueryParams(t *testing.T) {
+	assert := assert.New(t)
+
+	r := strings.NewReader(string(assets.MustAsset("samples/struct_as_query_params.yml")))
+	m, err := NewModelSpecFromYAML("sample", "samples/sample.yml", r)
+	if !assert.NoError(err) {
+		t.FailNow()
+	}
+
+	b, err := m.GenerateSourceCode()
+	if !assert.NoError(err) {
+		if b != nil {
+			t.Logf("Generated code:\n%s", b)
+		}
+		t.FailNow()
+	}
+
+	expected := strings.TrimSpace(string(assets.MustAsset("samples/_struct_as_query_params.go")))
+	actual := strings.TrimSpace(string(b))
+	if !assert.Equal(expected, actual) {
+		t.Logf("(expected):\n%s", expected)
+		t.Logf("(actual):\n%s", actual)
+	}
+}

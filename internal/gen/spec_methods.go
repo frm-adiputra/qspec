@@ -51,6 +51,3 @@ func (m ModelSpec) StructsSequence() []StructSpec { return m.structs }
 
 // QueriesSequence returns the queries for this model in alphabetical order.
 func (m ModelSpec) QueriesSequence() []QuerySpec { return m.queries }
-
-// Name returns the struct's name.
-func (s StructSpec) Name() string { return s.name }

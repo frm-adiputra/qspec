@@ -4,4 +4,6 @@ type {{.Name}} struct {
 	{{range .Fields}}{{.Name}} {{.Type}} {{if .Tag}}`{{.Tag}}`{{end}}
 	{{end}}
 }
+
+{{if .IsUsingValidations}}{{template "STRUCT_VALIDATE" .}}{{end}}
 {{end}}

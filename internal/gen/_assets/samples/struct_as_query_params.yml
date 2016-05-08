@@ -1,0 +1,47 @@
+description: provides sample query.
+structs:
+  SampleStruct:
+    description: is a sample struct.
+    fields:
+    - name: ID
+      type: string
+      tag: 'json:"id"'
+      validations:
+        required: true
+    - name: Quantity
+      type: int64
+      tag: 'json:"qty"'
+
+queries:
+  Update1:
+    description: updates sample.
+    statement: |
+      UPDATE Sample
+      SET
+        ID = ?ID,
+        Quantity = ?Quantity
+      WHERE ID = ?ID;
+    prepared: false
+    paramsStructFields:
+    - name: ID
+      type: string
+      validations:
+        required: true
+    - name: Quantity
+      type: int64
+    result:
+      type: None
+
+  Update2:
+    description: updates sample.
+    statement: |
+      UPDATE Sample
+      SET
+        ID = ?ID,
+        Quantity = ?Quantity
+      WHERE ID = ?ID;
+    prepared: false
+    paramsStructRef: SampleStruct
+    paramsStructRefValidate: true
+    result:
+      type: None
