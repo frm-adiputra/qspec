@@ -1,6 +1,6 @@
 {{define "QUERY_EXEC"}}
 // {{.Name}} {{.Description}}
-func {{.Name}}({{if .ParamsDeclaration}} {{.ParamsDeclaration}} interface{} {{end}}) (sql.Result, error) {
+func {{.Name}}({{.ParamsDeclaration}}) (sql.Result, error) {
 	r, err := getDB().Exec(_{{.Name}}Stmt {{if .ParamsUsage}}, {{.ParamsUsage}} {{end}})
 	return r, err
 }

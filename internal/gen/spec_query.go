@@ -54,9 +54,22 @@ func (q QuerySpec) DeclareResultStruct() bool {
 	return false
 }
 
+// ParamsStructName returns the name of the struct of parameters.
+func (q QuerySpec) ParamsStructName() string {
+	if q.ParamsStructRef != "" {
+		return q.ParamsStructRef
+	}
+
+	return q.Name() + "Params"
+}
+
 // ParamsDeclaration returns the parameters' declaration string.
 func (q QuerySpec) ParamsDeclaration() string {
-	return strings.Join(q.params.Declaration, ", ")
+	if len(q.params.Declaration) == 0 {
+		return ""
+	}
+
+	return strings.Join(q.params.Declaration, ", ") + " interface{}"
 }
 
 // ParamsUsage returns the parameters' usage string.

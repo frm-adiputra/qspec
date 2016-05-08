@@ -2,7 +2,7 @@
 {{template "PREPARED_QUERY_COMMONS" .}}
 
 // Query executes the prepared {{.Name}} statement.
-func (p *Prepared{{.Name}}) Query({{if .ParamsDeclaration}} {{.ParamsDeclaration}} interface{} {{end}}) ([]{{.ReturnType}}, error) {
+func (p *Prepared{{.Name}}) Query({{.ParamsDeclaration}}) ([]{{.ReturnType}}, error) {
 	var a []{{.ReturnType}}
 	rows, err := p.stmt.Query({{.ParamsUsage}})
 	if err != nil {

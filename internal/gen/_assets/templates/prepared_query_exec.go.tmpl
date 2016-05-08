@@ -2,7 +2,7 @@
 {{template "PREPARED_QUERY_COMMONS" .}}
 
 // Exec executes the prepared {{.Name}} statement.
-func (p *Prepared{{.Name}}) Exec({{if .ParamsDeclaration}} {{.ParamsDeclaration}} interface{} {{end}}) (sql.Result, error) {
+func (p *Prepared{{.Name}}) Exec({{.ParamsDeclaration}}) (sql.Result, error) {
 	r, err := p.stmt.Exec({{.ParamsUsage}})
 	return r, err
 }
